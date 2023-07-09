@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:reusables/mixins/form_state_mixin.dart';
 import 'package:reusables/reusables.dart';
 import 'package:um_core/um_core.dart';
-import 'package:user_management_web/widgets/confirmation_dialog.dart';
+import 'package:um_core/src/widgets/confirmation_dialog.dart';
 
 class WorkActivityItem extends StatelessWidget {
   const WorkActivityItem({
