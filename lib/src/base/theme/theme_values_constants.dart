@@ -7,6 +7,8 @@ class AppTheme {
     primaryColor: AppColors.secondaryColor,
     primarySwatch: Colors.blue,
     useMaterial3: true,
+    splashColor: Colors.transparent,
+    hoverColor: Colors.transparent,
     buttonTheme: ButtonThemeData(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.zero,
@@ -21,6 +23,7 @@ class AppTheme {
 
         ),
       ),
+
     tabBarTheme: TabBarTheme(
       labelColor: AppColors.secondaryColor,
       overlayColor: MaterialStateProperty.all<Color>(AppColors.secondaryColor.withOpacity(0.1)),
@@ -31,23 +34,11 @@ class AppTheme {
       scrolledUnderElevation: 0,
     ),
 
-    // textButtonTheme: TextButtonThemeData(
-    //   style: ButtonStyle(
-    //       textStyle: MaterialStatePropertyAll<TextStyle>(TextStyle(
-    //           color: AppColors.primaryColor)))
-    // ),
-
     indicatorColor: AppColors.secondaryColor,
     progressIndicatorTheme: const ProgressIndicatorThemeData(color: AppColors.primaryColor)
-    // accentColor: Colors.blue,
   );
 }
 
-// class AppColors{
-//   static const Color primaryColor = Color.fromARGB(255, 48, 150, 51);
-//   static const Color primaryDullColor = Colors.black54;
-//   static const Color secondaryColor = Colors.blue;
-// }
 
 class AppColors {
   static const Color secondaryColor = Colors.black54;
@@ -65,16 +56,9 @@ class AppColors {
 class DatePickerTheme {
   static ThemeData datePickerTheme = ThemeData(
     colorScheme: const ColorScheme.light(
-      primary: AppColors.primaryColor, // Customize the primary color
-      onPrimary: Colors.white, // Customize the text color on the primary color
+      primary: AppColors.primaryColor,
+      onPrimary: Colors.white,
     ),
-    // textTheme: const TextTheme(
-    //   headline1: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // Customize the date picker title style
-    //   bodyText1: TextStyle(fontSize: 16), // Customize the date picker day style
-    //   subtitle1: TextStyle(fontSize: 14), // Customize the date picker selected day style
-    //   button: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), // Customize the button text style
-    // ),
-    dialogBackgroundColor: Colors
-        .white, // Customize the background color of the date picker dialog
+    dialogBackgroundColor: Colors.white,
   );
 }

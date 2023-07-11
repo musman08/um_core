@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigator{
@@ -16,14 +15,10 @@ class AppNavigator{
         (route)=> false,
     );
   }
-
-  // static final Map<String, WidgetBuilder> appRoutes = {
-  //   AppPages.signIn.name : (ctx) => const LoginScreen(),
-  //   AppPages.signUp.name : (ctx) => const SignUpScreen(),
-  //   AppPages.signInWithMobile.name : (ctx) => const LoginScreen(),
-  //   AppPages.phoneCodeVerification.name : (ctx) => const VerifyCodeScreen(verificationId: ''),
-  //   AppPages.home.name : (ctx) => const HomePage(),
-  //
-  // };
+  static pushReplacement(BuildContext context, Widget page){
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(
+      builder: (context) => page,));
+  }
 
 }

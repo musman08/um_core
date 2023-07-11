@@ -22,3 +22,4 @@ export 'src/widgets/snackbar.dart';
 export 'src/utils/authorization_enums.dart';
 export 'src/widgets/verification_profile_icons.dart';
 export 'src/widgets/confirmation_dialog.dart';
+export 'src/utils/app_awaiter.dart';

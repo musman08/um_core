@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:um_core/src/data/hive/app_data.dart';
+import 'package:um_core/src/utils/authorization_enums.dart';
 
 
 abstract class AppAuthService {
@@ -21,11 +22,10 @@ abstract class AppAuthService {
       await AppData.setUserId(_credential.user!.uid);
       return _credential;
     } on FirebaseAuthException catch (e) {
-      if(e.code == 'wrong-password'){
-        throw 'wrong-password';
-      }else if(e.code == 'user-not-found'){
-        throw 'user-not-found';
-        // throw Exception('The account with this email and password does not exist.');
+      if(e.code == UserAuthentication.wrongPassword.name){
+        throw UserAuthentication.wrongPassword.name;
+      }else if(e.code == UserAuthentication.userNotFound.name){
+        throw UserAuthentication.userNotFound.name;
       }else{
         throw 'Internet Connection Error';
       }
@@ -55,9 +55,9 @@ abstract class AppAuthService {
       // AppData.setUserId(_credential.user!.uid);
       return _credential;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
+      if (e.code == UserAuthentication.weakPassword.name) {
         throw ('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
+      } else if (e.code == UserAuthentication.existingEmail.name) {
         throw ('The account already exists for that email.');
       } else {
         throw e.message ?? 'Internet Connection Error';

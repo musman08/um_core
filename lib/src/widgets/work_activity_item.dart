@@ -163,7 +163,7 @@ class ActivityActionButton extends StatelessWidget {
   final AddDataModel data;
   final String uAuth;
   final String title;
-  bool boolCheck = false;
+  bool boolCheck = true;
 
   void confirmation(bool check){
     boolCheck = check;
@@ -176,18 +176,14 @@ class ActivityActionButton extends StatelessWidget {
         if (uAuth != UserAuthorization.changeRequest.name) {
           if(uAuth == UserAuthorization.rejected.name){
             await ConfirmationDialogWidget(onConfirmation: confirmation).show(context);
-            if(boolCheck){
-              try {
-                data.status = uAuth;
-                await AddWorkActivityFirestoreService().updateFirestore(data);
-              } catch (e) {
-                const PopUpDialog('Failed. Try Again').show(context);
-              }
-            }
-          }else{
+          }
+          if(boolCheck){
             try {
               data.status = uAuth;
               await AddWorkActivityFirestoreService().updateFirestore(data);
+                  AppSnackBar.show(context,
+                      uAuth == UserAuthorization.approved.name ?
+                      'Activity has been accepted successfully' : 'Activity has been rejected successfully',);
             } catch (e) {
               const PopUpDialog('Failed. Try Again').show(context);
             }
@@ -230,15 +226,17 @@ class _ChangeRequestPopUpState extends State<ChangeRequestPopUp> with FormStateM
     super.initState();
     dataModel = widget.dataModel;
   }
+
   final TextEditingController changeRequestController = TextEditingController();
+  bool isClicked = false;
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
       child: AlertDialog(
-        title: Text('Change Request'),
-        content: SizedBox(
+        title: Text(isClicked ? 'Change Request' : 'Sending Request...'),
+        content: !isClicked ? SizedBox(
           width: 300,
           child: AppTextField(
               textEditingController: changeRequestController,
@@ -258,28 +256,44 @@ class _ChangeRequestPopUpState extends State<ChangeRequestPopUp> with FormStateM
                 }
               ])
           ),
+        ) : SizedBox(
+          height: 50,
+          width: 100,
+          child: Center(
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              )),
         ),
         actions: [
-          TextButton(
+          !isClicked ? TextButton(
               onPressed: (){
                 submitter();
               },
               child: Text(
                 "Send", style: TextStyle(color: AppColors.primaryColor),
               )
-          )
+          ): const SizedBox(),
         ],
       ),
     );
   }
   @override
-  FutureOr<void> onSubmit() async {
-    Navigator.pop(context);
+  FutureOr<void> onSubmit() {
+    isClicked = true;
+    setState(() { });
+    addData();
+  }
+  Future<void> addData() async{
     try {
       dataModel.status = UserAuthorization.changeRequest.name;
       dataModel.crDescription = changeRequestController.text;
       await AddWorkActivityFirestoreService().updateFirestore(dataModel);
+      AppSnackBar.show(context, 'Change request has been sent successfully');
+      if(!mounted) return;
+      Navigator.pop(context);
     } catch (e) {
+      if(!mounted) return;
+      Navigator.pop(context);
       const PopUpDialog('Failed. Try Again').show(context);
     }
   }
